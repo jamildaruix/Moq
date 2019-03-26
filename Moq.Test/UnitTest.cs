@@ -22,9 +22,23 @@ namespace Moq.Test
             mockRepository.VerifyAll();
 
             Assert.AreEqual(returns, true);
+        }
 
-            var returns2 = teste.BuscarTodosAsync().GetAwaiter().GetResult();
+        [TestMethod]
+        public void BuscarUm()
+        {
+            Pessoa p = new Pessoa() { Nome = "Jamil", Valor = 1.99M };
 
+            var mockRepository = new Mock<IFakeRepository>() { CallBase = true };
+
+            mockRepository.Setup(s => s.SelecionarPessoaAsync().ReturnsAsync(p);
+
+            var teste = mockRepository.Object;
+            var returns = teste.SelecionarPessoaAsync().GetAwaiter().GetResult();
+
+            mockRepository.VerifyAll();
+
+            Assert.AreEqual(returns, true);
         }
     }
 }
