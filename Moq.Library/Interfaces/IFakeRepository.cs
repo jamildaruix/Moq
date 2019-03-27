@@ -6,8 +6,8 @@ namespace Moq.Library.Interfaces
 {
     public interface IFakeRepository
     {
-        Task<Pessoa> SelecionarPessoaAsync();
-        Task<IEnumerable<Pessoa>> BuscarTodosAsync();
-        Task<bool> GravarAsync();
+        Task<Person> SelectPersonAsync();
+        Task<IEnumerable<Person>> SearchAllAsync();
+        Task<bool> RecordAsync();
     }
 }

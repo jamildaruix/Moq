@@ -1,7 +1,9 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq.Library.Dto;
 using Moq.Library.Interfaces;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Moq.Test
 {
@@ -9,36 +11,49 @@ namespace Moq.Test
     public class UnitTest
     {
         [TestMethod]
-        public void Gravar()
+        public void Record()
         {
-            var mockRepository = new Mock<IFakeRepository>() {  CallBase = true};
-            var mockUoW = new Mock<IFakeUoW>();
+            var mockRepository = new Mock<IFakeRepository>();
 
-            mockRepository.Setup(s => s.GravarAsync()).ReturnsAsync(true);
+            mockRepository.Setup(s => s.RecordAsync())
+                          .ReturnsAsync(false);
 
-            var teste = mockRepository.Object;
-            var returns = teste.GravarAsync().GetAwaiter().GetResult();
-
-            mockRepository.VerifyAll();
-
-            Assert.AreEqual(returns, true);
+            Assert.AreEqual(mockRepository.Object.RecordAsync(), true);
         }
 
         [TestMethod]
-        public void BuscarUm()
+        public void FilterOne()
         {
-            Pessoa p = new Pessoa() { Nome = "Jamil", Valor = 1.99M };
+            Person p = new Person() { Code = 1,  Name = "Jamil", Money = 1.99M };
 
-            var mockRepository = new Mock<IFakeRepository>() { CallBase = true };
+            var mockRepository = new Mock<IFakeRepository>();
 
-            mockRepository.Setup(s => s.SelecionarPessoaAsync().ReturnsAsync(p);
+            mockRepository.Setup(s => s.SelectPersonAsync())
+                           .ReturnsAsync(p);
 
-            var teste = mockRepository.Object;
-            var returns = teste.SelecionarPessoaAsync().GetAwaiter().GetResult();
+            var obj = mockRepository.Object.SelectPersonAsync().GetAwaiter().GetResult();
 
-            mockRepository.VerifyAll();
+            Assert.AreEqual(obj.Code, 1);
+        }
 
-            Assert.AreEqual(returns, true);
+        [TestMethod]
+        public void Filter()
+        {
+            IEnumerable<Person> list = new List<Person>()
+            {
+                new Person { Code = 1, Name = "Jamil", Money = 2.99M },
+                new Person { Code = 2, Name = "Mariana", Money = 90M },
+                new Person { Code = 3, Name = "Davi", Money = 44.99M },
+            };
+
+            var mockRepository = new Mock<IFakeRepository>();
+
+            mockRepository.Setup(s => s.SearchAllAsync())
+                           .ReturnsAsync(list);
+
+            var obj = mockRepository.Object.SearchAllAsync().GetAwaiter().GetResult();
+
+            Assert.AreEqual(obj.Where(w => w.Code == 3).Select(s => s.Name).SingleOrDefault() , "Davi");
         }
     }
 }

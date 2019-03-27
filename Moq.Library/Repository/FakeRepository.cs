@@ -8,25 +8,25 @@ namespace Moq.Library.Repository
 {
     public class FakeRepository : IFakeRepository
     {
-        public async Task<IEnumerable<Pessoa>> BuscarTodosAsync()
+        public async Task<IEnumerable<Person>> SearchAllAsync()
         {
-            return new List<Pessoa>()
+            return new List<Person>()
             {
-                new Pessoa { Codigo = 1, Nome = "Jamil", Valor = 14.99M },
-                new Pessoa { Codigo = 2, Nome = "Mariana", Valor = 99.99M },
-                new Pessoa { Codigo = 3, Nome = "Davi", Valor = 3.89M },
+                new Person { Code = 1, Name = "Jamil", Money = 14.99M },
+                new Person { Code = 2, Name = "Mariana", Money = 99.99M },
+                new Person { Code = 3, Name = "Davi", Money = 3.89M },
             };
         }
 
-        public async Task<bool> GravarAsync()
+        public async Task<bool> RecordAsync()
         {
-            Pessoa p = new Pessoa { Nome = "Teste 1", Valor = 99M };
+            Person p = new Person { Name = "Value 1", Money = 99M };
             return true;
         }
 
-        public async Task<Pessoa> SelecionarPessoaAsync()
+        public async Task<Person> SelectPersonAsync()
         {
-            return new Pessoa() { Codigo = 1, Nome = "Jamil", Valor = 14.99M };
+            return new Person() { Code = 1, Name = "Jamil", Money = 14.99M };
         }
     }
 }
